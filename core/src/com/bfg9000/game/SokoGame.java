@@ -13,13 +13,17 @@ public class SokoGame extends ApplicationAdapter {
 	private SpriteBatch batch;
 	private FileHandle levelFile;
 	private int currentLevel = 0;
+	private int realScreenWidth;
+	private int realScreenHeight;
 	SokoLevelCollection gameLevels;
 	Player player = new Player();
 	
 	@Override
 	public void create () {
+		realScreenWidth = Gdx.graphics.getWidth();
+		realScreenHeight = Gdx.graphics.getHeight();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.setToOrtho(true, realScreenWidth, realScreenHeight);
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 
@@ -42,9 +46,12 @@ public class SokoGame extends ApplicationAdapter {
 		currentLevel = 12;
 
         gameLevels.printLevel(currentLevel);
-		gameLevels.getLevel(currentLevel).setScreenXY(0,0);
+		gameLevels.getLevel(currentLevel).setScreenXY((realScreenWidth - gameLevels.getLevel(currentLevel).getWidth()*64)/2,
+				(realScreenHeight - gameLevels.getLevel(currentLevel).getHeight()*64)/2);
 		player.setMap(gameLevels.getLevel(currentLevel));
 		player.debugPrint();
+//		Gdx.app.log("SOKO", realScreenWidth + "");
+//		Gdx.app.log("SOKO", realScreenHeight + "");
 
 		Gdx.input.setInputProcessor(new InputHandler(player, camera));
 	}

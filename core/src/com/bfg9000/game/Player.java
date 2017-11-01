@@ -10,7 +10,7 @@ public class Player {
     private int x;
     private int y;
     SokoLevel map;
-    private Texture texture;
+//    private Texture texture;
     private Sprite sprite;
 
     private boolean testBounds(Direction dir) {
@@ -57,7 +57,7 @@ public class Player {
     public void setTexture(Texture texture) {
         sprite = new Sprite(texture);
         sprite.flip(false, true);
-        this.texture = texture;
+//        this.texture = texture;
     }
 
     public void setMap(SokoLevel map) {
@@ -67,33 +67,33 @@ public class Player {
     }
 
     public void move(Vector3 vec) {
-        int mX = (int) ((vec.x - map.getScreenX()) / 64);
-        int mY = (int) ((vec.y - map.getScreenY()) / 64);
+        int dX = 0;
+        int dY = 0;
 
-        int dX = (int) Math.signum(mX - this.x);
-        int dY = (int) Math.signum(mY - this.y);
+        float mX = vec.x - this.x * 64 * Globals.scaleY - map.getScreenX();
+        float mY = vec.y - this.y * 64 * Globals.scaleY - map.getScreenY();
 
-        Gdx.app.log("SOKO", "x= " + mX + " y= " + mY);
-        Gdx.app.log("SOKO", "dx= " + dX + " dy= " + dY);
-
-        switch (dX) {
-            case 1:
-                move(Direction.RIGHT);
-                break;
-            case -1:
-                move(Direction.LEFT);
-                break;
+        if (Math.abs(mX) > Math.abs(mY)) {
+            dX = (int) Math.signum(mX);
+            switch (dX) {
+                case 1:
+                    move(Direction.RIGHT);
+                    break;
+                case -1:
+                    move(Direction.LEFT);
+                    break;
+            }
+        } else {
+            dY = (int) Math.signum(mY);
+            switch (dY) {
+                case 1:
+                    move(Direction.DOWN);
+                    break;
+                case -1:
+                    move(Direction.UP);
+                    break;
+            }
         }
-
-        switch (dY) {
-            case 1:
-                move(Direction.DOWN);
-                break;
-            case -1:
-                move(Direction.UP);
-                break;
-        }
-
 
     }
 
@@ -179,7 +179,8 @@ public class Player {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(sprite,map.getScreenX() + x*64 + sprite.getWidth()/2, map.getScreenY() + y*64);
+        batch.draw(sprite,map.getScreenX() + x*64*Globals.scaleY + sprite.getWidth()*Globals.scaleY/2,
+                map.getScreenY() + y*64*Globals.scaleY);
     }
 
     public void debugPrint() {

@@ -17,11 +17,13 @@ public class SokoGame extends ApplicationAdapter {
 	private int realScreenHeight;
 	SokoLevelCollection gameLevels;
 	Player player = new Player();
-	
+
 	@Override
 	public void create () {
 		realScreenWidth = Gdx.graphics.getWidth();
 		realScreenHeight = Gdx.graphics.getHeight();
+		Globals.scaleX = (float) realScreenWidth / Globals.gameScreenWidth;
+		Globals.scaleY = (float) realScreenHeight / Globals.gameScreenHeight;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, realScreenWidth, realScreenHeight);
 		batch = new SpriteBatch();
@@ -46,12 +48,15 @@ public class SokoGame extends ApplicationAdapter {
 		currentLevel = 12;
 
         gameLevels.printLevel(currentLevel);
-		gameLevels.getLevel(currentLevel).setScreenXY((realScreenWidth - gameLevels.getLevel(currentLevel).getWidth()*64)/2,
-				(realScreenHeight - gameLevels.getLevel(currentLevel).getHeight()*64)/2);
+		gameLevels.getLevel(currentLevel).setScreenXY(
+				(realScreenWidth - gameLevels.getLevel(currentLevel).getWidth()*64*Globals.scaleY)/2,
+				(realScreenHeight - gameLevels.getLevel(currentLevel).getHeight()*64*Globals.scaleY)/2);
 		player.setMap(gameLevels.getLevel(currentLevel));
 		player.debugPrint();
-//		Gdx.app.log("SOKO", realScreenWidth + "");
-//		Gdx.app.log("SOKO", realScreenHeight + "");
+		Gdx.app.log("SOKO", realScreenWidth + "");
+		Gdx.app.log("SOKO", realScreenHeight + "");
+		Gdx.app.log("SOKO", Globals.scaleX + "");
+		Gdx.app.log("SOKO", Globals.scaleY + "");
 
 		Gdx.input.setInputProcessor(new InputHandler(player, camera));
 	}

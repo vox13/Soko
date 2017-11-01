@@ -5,6 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 public class Globals {
     public static int gameScreenWidth = 700;
     public static int gameScreenHeight = 572;
+    public static int cellWidth = 64;
+    public static int cellHeight = 64;
+    public static float scaleX;
+    public static float scaleY;
+
     public static Texture texPlayer, texWall, texGround, texBox, texDark_box, texEndpoint;
     public static char[] SOKO_CHARS = {' ','.','#','@','*','+','$'};
 

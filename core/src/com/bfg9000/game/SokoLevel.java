@@ -189,15 +189,19 @@ public class SokoLevel {
             int y = height;
             for (MapCell cell: levelMap) {
                 if (cell.obj1 != Globals.ID_SPACE) {
-                    batch.draw(Globals.texGround, screenX + cell.x*64, screenY + cell.y*64);
+                    batch.draw(Globals.texGround, screenX + cell.x*64*Globals.scaleY, screenY + cell.y*64*Globals.scaleY,
+                            Globals.texGround.getWidth() * Globals.scaleY, Globals.texGround.getHeight() * Globals.scaleY);
 
                     Texture tex = textureFromCell(cell);
                     if (tex == null) continue;
 
                     if (cell.obj1 == Globals.ID_GOAL && cell.obj2 != Globals.ID_BOX) {
-                        batch.draw(tex, screenX + cell.x*64 + textureFromCell(cell).getWidth()/2, screenY + cell.y*64 + textureFromCell(cell).getHeight()/2);
+                        batch.draw(tex, screenX + cell.x*64*Globals.scaleY + textureFromCell(cell).getWidth()/2,
+                                screenY + cell.y*64*Globals.scaleY + textureFromCell(cell).getHeight()/2,
+                                tex.getWidth() * Globals.scaleY, tex.getHeight() * Globals.scaleY);
                     } else
-                        batch.draw(tex, screenX + cell.x*64, screenY + cell.y*64);
+                        batch.draw(tex, screenX + cell.x*64*Globals.scaleY, screenY + cell.y*64*Globals.scaleY,
+                                tex.getWidth() * Globals.scaleY, tex.getHeight() * Globals.scaleY);
                 }
 
             }
